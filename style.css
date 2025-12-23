@@ -1,0 +1,679 @@
+/* Base Setup */
+body {
+    background-color: #0f172a;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Glassmorphism Utilities */
+.glass-panel {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    transform-style: preserve-3d;
+}
+
+.glass-btn {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.glass-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.glass-input {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.glass-input:focus {
+    background: rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+}
+
+.glass-modal {
+    background: rgba(20, 20, 30, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+/* Background Blobs Animation */
+.blob {
+    position: absolute;
+    filter: blur(80px);
+    z-index: -1;
+    opacity: 0.6;
+    animation: drift 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.blob-1 {
+    top: -10%;
+    left: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, #762acc, transparent 70%);
+    animation-delay: 0s;
+}
+
+.blob-2 {
+    bottom: -10%;
+    right: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, #00f3ff, transparent 70%);
+    animation-delay: -5s;
+}
+
+.blob-3 {
+    top: 40%;
+    left: 40%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, #ff0055, transparent 70%);
+    animation-delay: -10s;
+}
+
+@keyframes drift {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    50% {
+        transform: translate(50px, -50px) scale(1.1);
+    }
+
+    100% {
+        transform: translate(-30px, 30px) scale(0.9);
+    }
+}
+
+/* Neon Text */
+.header-glow {
+    text-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
+}
+
+/* Checkbox Custom Styling */
+.custom-checkbox {
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.topic-item.completed .custom-checkbox {
+    background: #00f3ff;
+    border-color: #00f3ff;
+    box-shadow: 0 0 10px #00f3ff;
+}
+
+.topic-item.completed .custom-checkbox i {
+    opacity: 1;
+    color: black;
+}
+
+.topic-item.completed span {
+    text-decoration: line-through;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.topic-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Countdown Box */
+.countdown-box {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+}
+
+/* Timeline Styles */
+.timeline-node {
+    width: 20px;
+    height: 20px;
+    background: #0f172a;
+    border: 3px solid #64748b;
+    border-radius: 50%;
+    position: relative;
+    z-index: 10;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Timeline Dot (center marker) */
+.timeline-dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    justify-self: center;
+}
+
+/* Timeline Row Spacing */
+.timeline-row {
+    margin-bottom: 1.5rem;
+}
+
+/* Exam Card inside grid - ensure full width */
+.timeline-row .exam-card {
+    width: 100%;
+}
+
+/* ========================================
+   VIEW TOGGLE SYSTEM
+   ======================================== */
+
+/* Toggle Button Styling */
+.view-toggle-btn {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.view-toggle-btn:hover {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.view-toggle-btn.active {
+    background: linear-gradient(135deg, rgba(0, 243, 255, 0.2), rgba(188, 19, 254, 0.2));
+    border-color: rgba(0, 243, 255, 0.5);
+    color: #00f3ff;
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+}
+
+/* Filter Toggle Button Styling */
+.filter-toggle-btn {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.filter-toggle-btn:hover {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.filter-toggle-btn.active {
+    background: linear-gradient(135deg, rgba(188, 19, 254, 0.2), rgba(255, 0, 85, 0.2));
+    border-color: rgba(188, 19, 254, 0.5);
+    color: #bc13fe;
+    box-shadow: 0 0 15px rgba(188, 19, 254, 0.3);
+}
+
+/* ========================================
+   HIDE COMPLETED EXAMS SYSTEM
+   ======================================== */
+
+/* Hide completed (past) exams when filter is active */
+.hide-completed .timeline-row.past {
+    display: none !important;
+}
+
+/* LIST VIEW (Default) */
+.view-list .timeline-line {
+    display: block;
+}
+
+.view-list #exams-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* GRID VIEW */
+.view-grid .timeline-line {
+    display: none !important;
+}
+
+.view-grid .timeline-dot {
+    display: none !important;
+}
+
+.view-grid #exams-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-auto-rows: 1fr;
+    /* THE FIX: Sync row heights */
+    gap: 1.5rem;
+}
+
+/* Grid View - Hide connectors */
+.view-grid .timeline-row>div>div.w-8 {
+    display: none !important;
+}
+
+/* Grid View - Hide side info container explicitly */
+/* SMART FIX: The Card Wrappers have 'flex' class, Info Wrappers do not. */
+/* We hide any direct child of timeline-row that is NOT a flex container. */
+/* This ensures the empty Info Wrapper divs (which are block) don't take up space.*/
+.view-grid .timeline-row>div:not(.flex) {
+    display: none !important;
+}
+
+/* Fallback if :has not supported: Hide side info content */
+.view-grid .timeline-side-info {
+    display: none !important;
+}
+
+/* FIX: Prevent completed (past) cards from shifting or looking different in Grid */
+.view-grid .timeline-row.past {
+    filter: none !important;
+    opacity: 1 !important;
+}
+
+.view-grid .timeline-row.past .exam-card {
+    /* If we want to dim them slightly but keep layout intact */
+    opacity: 0.7;
+    filter: grayscale(0.5);
+    transform: none !important;
+    /* Ensure no scale drift */
+}
+
+.view-grid .timeline-row.past .exam-card:hover {
+    opacity: 1;
+    filter: none;
+    transform: scale(1.02) !important;
+}
+
+/* Grid View - Reset row layout & Propagate Height */
+.view-grid .timeline-row {
+    display: contents !important;
+    /* Makes grid cells directly contain the card wrapper */
+}
+
+/* Target the wrapper div containing the card - ALIGN TO TOP */
+.view-grid .timeline-row>.flex.items-center {
+    height: 100%;
+    align-items: flex-start !important;
+    /* Override items-center to align cards at top */
+}
+
+/* Target the inner wrapper of the card */
+.view-grid .timeline-row>.flex.items-center>.w-full {
+    height: 100%;
+}
+
+/* Grid View - Show internal info details (date/time/location) */
+.view-grid .grid-internal-info {
+    display: flex !important;
+    margin-top: 0.25rem;
+}
+
+/* Grid View - Ensure location is visible if inside grid-internal-info */
+.view-grid .grid-internal-info .card-detail-hide {
+    display: inline-block !important;
+}
+
+/* Grid View - Compact Card Structure */
+.view-grid .exam-card {
+    padding: 1rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 0.5rem;
+}
+
+/* Hide details for compact look */
+.view-grid .exam-card>.flex-1 .card-detail-hide {
+    display: none;
+}
+
+/* Grid View - Top content stays at top */
+.view-grid .exam-card>div:first-child {
+    flex-shrink: 0;
+}
+
+/* Grid View - Push progress bar to bottom */
+.view-grid .exam-card>div:last-child {
+    margin-top: auto;
+}
+
+/* Grid View - Smaller title with Line Clamp */
+.view-grid .exam-card h3 {
+    font-size: 1.1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Grid View - Countdown prominent */
+.view-grid .countdown-box {
+    padding: 0.75rem;
+}
+
+.view-grid .countdown-timer {
+    font-size: 1.25rem !important;
+}
+
+/* ========================================
+   MOBILE OPTIMIZATION (Force Grid)
+   ======================================== */
+@media (max-width: 768px) {
+
+    /* Hide specific details in mobile (like timeline side info) */
+    .timeline-side-info {
+        display: none !important;
+    }
+
+    /* Hide view toggle buttons on mobile */
+    .view-toggle-container {
+        display: none !important;
+    }
+
+    /* Force Grid Layout on Mobile regardless of toggle state */
+    #exams-section .timeline-line {
+        display: none !important;
+    }
+
+    #exams-section #exams-list {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        /* Single column grid */
+        gap: 1rem !important;
+    }
+
+    .timeline-row {
+        display: block !important;
+        margin-bottom: 0 !important;
+    }
+
+    .timeline-row>div:first-child>div:last-child {
+        display: none !important;
+    }
+
+    /* connector */
+    .timeline-dot {
+        display: none !important;
+    }
+
+    /* Force Grid Card Styling on Mobile */
+    .exam-card {
+        padding: 1rem !important;
+        height: auto !important;
+        /* Allow auto height on mobile single column */
+        min-height: 180px;
+        /* Minimum height for consistency */
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+    }
+
+    /* Show internal info on mobile */
+    .grid-internal-info {
+        display: flex !important;
+        margin-top: 0.5rem;
+    }
+
+    .grid-internal-info .card-detail-hide {
+        display: inline-block !important;
+    }
+
+    /* Ensure countdown box is consistent */
+    .countdown-box {
+        margin-top: 1rem;
+    }
+}
+
+.timeline-item:hover .timeline-node {
+    transform: scale(1.5);
+    background: #00f3ff;
+    border-color: #fff;
+    box-shadow: 0 0 20px #00f3ff;
+}
+
+.timeline-item.active .timeline-node {
+    background: #bc13fe;
+    border-color: #fff;
+    box-shadow: 0 0 15px #bc13fe;
+    animation: pulseNode 2s infinite;
+}
+
+.timeline-card-wrapper {
+    position: absolute;
+    width: 200px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: all 0.3s;
+    opacity: 0.7;
+}
+
+.timeline-item:hover .timeline-card-wrapper {
+    opacity: 1;
+    transform: translateX(-50%) scale(1.05);
+}
+
+.timeline-item.active .timeline-card-wrapper {
+    opacity: 1;
+}
+
+.timeline-top {
+    bottom: 30px;
+}
+
+.timeline-bottom {
+    top: 30px;
+}
+
+/* Connecting lines for alternating items */
+.timeline-top::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    /* connects to node roughly */
+    left: 50%;
+    width: 1px;
+    height: 15px;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.timeline-bottom::before {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    width: 1px;
+    height: 15px;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+@keyframes pulseNode {
+    0% {
+        box-shadow: 0 0 0 0 rgba(188, 19, 254, 0.7);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(188, 19, 254, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(188, 19, 254, 0);
+    }
+}
+
+/* --- FLATPICKR CUSTOM THEME (Glassmorphism + Neon) --- */
+.flatpickr-calendar {
+    background: rgba(20, 20, 30, 0.85) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5) !important;
+    color: white !important;
+    border-radius: 16px !important;
+}
+
+.flatpickr-calendar.arrowTop:before,
+.flatpickr-calendar.arrowTop:after,
+.flatpickr-calendar.arrowBottom:before,
+.flatpickr-calendar.arrowBottom:after {
+    border-bottom-color: rgba(20, 20, 30, 0.85) !important;
+}
+
+.flatpickr-month {
+    background: transparent !important;
+    color: white !important;
+    fill: white !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 10px;
+}
+
+.flatpickr-current-month .flatpickr-monthDropdown-months {
+    background: transparent !important;
+    color: white !important;
+    font-weight: bold;
+}
+
+.flatpickr-current-month .flatpickr-monthDropdown-months:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.flatpickr-current-month .numInputWrapper span.arrowUp:after {
+    border-bottom-color: white !important;
+}
+
+.flatpickr-current-month .numInputWrapper span.arrowDown:after {
+    border-top-color: white !important;
+}
+
+.flatpickr-current-month input.cur-year {
+    color: white !important;
+    font-weight: bold;
+}
+
+span.flatpickr-weekday {
+    background: transparent !important;
+    color: rgba(255, 255, 255, 0.5) !important;
+    font-family: 'Inter', sans-serif;
+}
+
+.flatpickr-day {
+    color: white !important;
+    border-radius: 8px !important;
+    transition: all 0.2s;
+    font-family: 'Inter', sans-serif;
+}
+
+.flatpickr-day:hover,
+.flatpickr-day.prevMonthDay:hover,
+.flatpickr-day.nextMonthDay:hover,
+.flatpickr-day:focus {
+    background: rgba(255, 255, 255, 0.15) !important;
+    border-color: transparent !important;
+}
+
+.flatpickr-day.today {
+    border-color: rgba(0, 243, 255, 0.5) !important;
+    background: rgba(0, 243, 255, 0.1) !important;
+    color: #00f3ff !important;
+}
+
+.flatpickr-day.selected,
+.flatpickr-day.startRange,
+.flatpickr-day.endRange,
+.flatpickr-day.selected.inRange,
+.flatpickr-day.startRange.inRange,
+.flatpickr-day.endRange.inRange,
+.flatpickr-day.selected:focus,
+.flatpickr-day.startRange:focus,
+.flatpickr-day.endRange:focus,
+.flatpickr-day.selected:hover,
+.flatpickr-day.startRange:hover,
+.flatpickr-day.endRange:hover,
+.flatpickr-day.selected.prevMonthDay,
+.flatpickr-day.startRange.prevMonthDay,
+.flatpickr-day.endRange.prevMonthDay,
+.flatpickr-day.selected.nextMonthDay,
+.flatpickr-day.startRange.nextMonthDay,
+.flatpickr-day.endRange.nextMonthDay {
+    background: linear-gradient(135deg, #00f3ff, #bc13fe) !important;
+    border-color: transparent !important;
+    color: white !important;
+    box-shadow: 0 0 15px rgba(188, 19, 254, 0.4);
+}
+
+/* Time Picker Layout Fixes */
+.flatpickr-time {
+    background: transparent !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+    max-height: none !important;
+    /* Allow growing */
+    height: auto !important;
+    padding: 15px 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.flatpickr-time .numInputWrapper {
+    height: 40px !important;
+    /* Slightly reduced height to fit better */
+    width: 60px !important;
+    /* Fixed width */
+    flex: 0 0 auto !important;
+}
+
+.flatpickr-time .flatpickr-time-separator {
+    color: white !important;
+    font-size: 24px !important;
+    height: auto !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+.flatpickr-time input {
+    color: white !important;
+    font-size: 20px !important;
+    font-weight: bold !important;
+}
+
+.flatpickr-time input:hover,
+.flatpickr-time .flatpickr-am-pm:hover,
+.flatpickr-time input:focus,
+.flatpickr-time .flatpickr-am-pm:focus {
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Fix arrow positioning within taller inputs */
+.flatpickr-time .numInputWrapper span.arrowUp:after {
+    border-bottom-color: white !important;
+    top: 50% !important;
+}
+
+.flatpickr-time .numInputWrapper span.arrowDown:after {
+    border-top-color: white !important;
+    top: 50% !important;
+}
+
+.flatpickr-time .numInputWrapper span {
+    border: none !important;
+    right: 0 !important;
+    width: 18px !important;
+    padding: 0 !important;
+}
+
+.flatpickr-time .numInputWrapper:hover {
+    background: rgba(255, 255, 255, 0.05);
+}

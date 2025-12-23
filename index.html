@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finals Dashboard</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Flatpickr Date/Time Picker -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
+
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Tailwind Config for Custom Colors/Fonts -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        glass: 'rgba(255, 255, 255, 0.05)',
+                        glassBorder: 'rgba(255, 255, 255, 0.1)',
+                        neonBlue: '#00f3ff',
+                        neonPurple: '#bc13fe',
+                        neonPink: '#ff0055',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-slate-900 text-white min-h-screen overflow-x-hidden selection:bg-neonPink selection:text-white">
+
+    <!-- Background Blobs -->
+    <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <!-- Main Container -->
+    <main class="container mx-auto px-4 py-8 relative z-10 max-w-6xl">
+
+        <!-- Header / Hero -->
+        <header class="flex flex-col lg:flex-row justify-between items-stretch mb-12 gap-6">
+            <!-- Left: Title & Countdown -->
+            <div class="glass-panel p-6 md:p-8 rounded-2xl flex-1 text-center lg:text-left relative overflow-hidden group
+                        border border-white/[0.08] hover:border-white/15 transition-all duration-300
+                        shadow-[0_4px_24px_rgba(0,0,0,0.2)]">
+                <div
+                    class="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <i class="fa-regular fa-clock text-neonBlue text-4xl animate-pulse"></i>
+                </div>
+                <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-3 tracking-tight">
+                    <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-neonBlue to-neonPurple header-glow">Finals
+                        Dashboard</span>
+                </h1>
+                <p id="next-exam-text" class="text-base md:text-lg text-gray-300 mb-4">Sıradaki Sınav Yükleniyor...</p>
+
+                <div id="countdown" class="flex justify-center lg:justify-start gap-3 md:gap-4 flex-wrap">
+                    <!-- Countdown Items injected via JS -->
+                </div>
+            </div>
+
+            <!-- Right: Actions -->
+            <div class="flex flex-col gap-4 w-full lg:w-auto lg:min-w-[280px]">
+                <button onclick="openAddModal()" class="glass-btn w-full py-4 px-6 text-lg md:text-xl font-bold rounded-2xl transition-all duration-300
+                           hover:scale-[1.02] active:scale-[0.98] group
+                           border border-white/[0.08] hover:border-neonBlue/50
+                           hover:shadow-[0_0_20px_rgba(0,243,255,0.2)]">
+                    <i
+                        class="fa-solid fa-plus mr-2 group-hover:rotate-90 transition-transform duration-300 text-neonBlue"></i>
+                    Yeni Sınav Ekle
+                </button>
+                <div class="glass-panel p-4 rounded-xl text-center border border-white/[0.08]">
+                    <p class="text-sm text-gray-400">Toplam Sınav</p>
+                    <p id="total-exams" class="text-3xl font-bold text-white">0</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- View Toggle Controls -->
+        <div class="view-toggle-container flex justify-center md:justify-end mb-6 gap-2">
+            <button id="view-list-btn" onclick="setView('list')"
+                class="view-toggle-btn active p-3 rounded-xl bg-white/5 border border-white/10 hover:border-neonBlue/50 transition-all"
+                title="Liste Görünümü">
+                <i class="fa-solid fa-list text-lg"></i>
+            </button>
+            <button id="view-grid-btn" onclick="setView('grid')"
+                class="view-toggle-btn p-3 rounded-xl bg-white/5 border border-white/10 hover:border-neonBlue/50 transition-all"
+                title="Izgara Görünümü">
+                <i class="fa-solid fa-grip text-lg"></i>
+            </button>
+            <div class="w-px bg-white/10 mx-1"></div>
+            <button id="hide-completed-btn" onclick="toggleHideCompleted()"
+                class="filter-toggle-btn p-3 rounded-xl bg-white/5 border border-white/10 hover:border-neonPurple/50 transition-all"
+                title="Tamamlanan Sınavları Gizle/Göster">
+                <i class="fa-solid fa-eye text-lg"></i>
+            </button>
+        </div>
+
+        <!-- Main Exams Container (supports list/grid views) -->
+        <section id="exams-section" class="max-w-5xl mx-auto relative view-list">
+            <!-- Vertical Line (shown only in list view) -->
+            <div id="timeline-line"
+                class="timeline-line absolute left-4 md:left-1/2 top-0 bottom-0 w-1 bg-white/10 transform md:-translate-x-1/2 rounded-full hidden md:block">
+            </div>
+
+            <div id="exams-list" class="space-y-8 relative">
+                <!-- Timeline Cards injected via JS -->
+            </div>
+        </section>
+
+
+    </main>
+
+    <!-- Welcome/Warning Dialog (shown once) -->
+    <div id="welcome-overlay"
+        class="fixed inset-0 z-[100] bg-black/70 backdrop-blur-md hidden flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+        <div id="welcome-dialog"
+            class="glass-modal p-8 rounded-3xl w-full max-w-md transform scale-95 transition-all duration-300 text-center">
+
+            <div
+                class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-neonBlue to-neonPurple flex items-center justify-center">
+                <i class="fa-solid fa-circle-info text-3xl text-white"></i>
+            </div>
+
+            <h2 class="text-2xl font-bold text-white mb-3">Hoş Geldiniz! 👋</h2>
+
+            <p class="text-gray-300 text-sm leading-relaxed mb-4">
+                Bu uygulama sınav takibi yapmanızı sağlar. Verileriniz <strong class="text-neonBlue">tarayıcınızda yerel
+                    olarak</strong> saklanır.
+            </p>
+
+            <div class="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4 mb-6 text-left">
+                <div class="flex items-start gap-3">
+                    <i class="fa-solid fa-triangle-exclamation text-yellow-400 mt-0.5"></i>
+                    <div class="text-sm text-yellow-200/90">
+                        <strong class="block mb-1">Önemli Uyarı:</strong>
+                        <ul class="list-disc list-inside text-yellow-200/70 space-y-1">
+                            <li>Tarayıcı geçmişi/verileri temizlenirse sınavlarınız <strong>silinir</strong></li>
+                            <li>Farklı cihaz veya tarayıcıdan verilerinize erişemezsiniz</li>
+                            <li>Gizli/özel pencerede veriler kaydedilmez</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="closeWelcomeDialog()"
+                class="w-full bg-gradient-to-r from-neonBlue to-neonPurple text-white font-bold py-3 px-6 rounded-xl hover:shadow-[0_0_20px_rgba(0,243,255,0.4)] transition duration-300">
+                <i class="fa-solid fa-check mr-2"></i>Anladım, Devam Et
+            </button>
+        </div>
+    </div>
+
+    <!-- Generic Modal Overlay -->
+    <div id="modal-overlay"
+        class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center opacity-0 transition-opacity duration-300">
+
+        <!-- Add/Edit Exam Modal -->
+        <div id="exam-modal"
+            class="glass-modal p-8 rounded-3xl w-full max-w-lg transform scale-95 transition-all duration-300 hidden">
+            <div class="flex justify-between items-center mb-6">
+                <h2 id="modal-title" class="text-2xl font-bold text-white">Sınav Ekle</h2>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-white transition"><i
+                        class="fa-solid fa-xmark text-2xl"></i></button>
+            </div>
+
+            <form id="exam-form" class="space-y-4" novalidate>
+                <input type="hidden" id="exam-id">
+
+                <div>
+                    <label class="block text-sm text-gray-400 mb-1">Ders Adı</label>
+                    <input type="text" id="course-name" required
+                        class="glass-input w-full p-3 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-neonBlue"
+                        placeholder="Örn: Yapay Zeka">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm text-gray-400 mb-1">Vize Notu</label>
+                        <input type="number" id="exam-midterm" min="0" max="100"
+                            class="glass-input w-full p-3 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-neonBlue placeholder-gray-600"
+                            placeholder="Örn: 50">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-400 mb-1">Önem Derecesi</label>
+                        <select id="exam-priority"
+                            class="glass-input w-full p-3 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-neonBlue bg-slate-800">
+                            <option value="NORMAL">Normal</option>
+                            <option value="HIGH">🔥 Kritik</option>
+                            <option value="LOW">☕ Rahat</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm text-gray-400 mb-1">Tarih</label>
+                        <input type="text" id="exam-date"
+                            class="glass-input w-full p-3 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-neonPurple cursor-pointer bg-slate-800"
+                            placeholder="Tarih Seçiniz">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-400 mb-1">Saat</label>
+                        <input type="text" id="exam-time"
+                            class="glass-input w-full p-3 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-neonPurple cursor-pointer bg-slate-800"
+                            placeholder="Saat Seçiniz">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm text-gray-400 mb-1">Sınav Yeri</label>
+                    <input type="text" id="exam-location" required
+                        class="glass-input w-full p-3 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-neonPink"
+                        placeholder="Örn: D-203">
+                </div>
+
+                <div>
+                    <label class="block text-sm text-gray-400 mb-1">Notlar / Linkler</label>
+                    <textarea id="exam-notes" rows="2"
+                        class="glass-input w-full p-3 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-neonBlue text-sm placeholder-gray-600"
+                        placeholder="Drive linki, hoca notu, önemli formüller..."></textarea>
+                </div>
+
+                <button type="submit"
+                    class="w-full bg-gradient-to-r from-neonBlue to-neonPurple text-white font-bold py-3 rounded-xl mt-4 hover:shadow-[0_0_20px_rgba(0,243,255,0.4)] transition duration-300">
+                    Kaydet
+                </button>
+            </form>
+        </div>
+
+        <!-- Topics Modal -->
+        <div id="topics-modal"
+            class="glass-modal p-8 rounded-3xl w-full max-w-2xl transform scale-95 transition-all duration-300 hidden flex flex-col max-h-[90vh]">
+            <div class="flex justify-between items-start mb-2">
+                <div>
+                    <h2 id="topic-course-title" class="text-3xl font-bold text-white mb-1">Yapay Zeka</h2>
+                    <p class="text-sm text-gray-300 flex items-center gap-2">
+                        <i class="fa-regular fa-calendar"></i> <span id="topic-exam-date">12 Ocak 2024</span>
+                        <span class="text-gray-500">|</span>
+                        <i class="fa-solid fa-location-dot text-neonPink"></i> <span
+                            id="topic-exam-location">D-203</span>
+                    </p>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="openEditExamFromTopics()"
+                        class="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition text-neonBlue"
+                        title="Düzenle">
+                        <i class="fa-solid fa-pen"></i>
+                    </button>
+                    <button onclick="deleteCurrentExam()"
+                        class="w-10 h-10 rounded-full bg-white/5 hover:bg-red-500/20 flex items-center justify-center transition text-red-400"
+                        title="Sil">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                    <button onclick="closeModal()"
+                        class="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition ml-2">
+                        <i class="fa-solid fa-xmark text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Progress Bar inside Modal -->
+            <div class="my-6">
+                <div class="flex justify-between text-xs mb-1 text-gray-400 font-mono">
+                    <span>İLERLEME DURUMU</span>
+                    <span id="modal-progress-text">0%</span>
+                </div>
+                <div class="h-4 bg-black/30 rounded-full overflow-hidden backdrop-blur-md border border-white/5">
+                    <div id="modal-progress-bar"
+                        class="h-full bg-gradient-to-r from-neonBlue via-neonPurple to-neonPink w-0 transition-all duration-500 ease-out shadow-[0_0_15px_rgba(188,19,254,0.5)]">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Topic Form -->
+            <form id="add-topic-form" class="flex gap-2 mb-6">
+                <input type="text" id="new-topic-input" required
+                    class="glass-input flex-1 p-3 rounded-xl text-white focus:outline-none focus:ring-1 focus:ring-neonBlue"
+                    placeholder="Yeni konu ekle...">
+                <button type="submit"
+                    class="bg-white/10 hover:bg-white/20 text-white px-6 rounded-xl font-bold transition">Ekle</button>
+            </form>
+
+            <!-- Topics List -->
+            <div id="topics-list" class="flex-1 overflow-y-auto pr-2 space-y-3 custom-scrollbar">
+                <!-- Topics injected via JS -->
+                <div
+                    class="topic-item group flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5 hover:border-white/20 transition cursor-pointer">
+                    <div
+                        class="custom-checkbox w-6 h-6 border-2 border-neonBlue rounded flex items-center justify-center">
+                        <i class="fa-solid fa-check text-xs opacity-0"></i>
+                    </div>
+                    <span class="flex-1 text-gray-300 group-hover:text-white transition">Konu Başlığı</span>
+                    <button class="text-gray-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition"><i
+                            class="fa-solid fa-trash"></i></button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/tr.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
