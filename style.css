@@ -686,10 +686,14 @@ span.flatpickr-weekday {
 /* Mobile Flatpickr Fix - Prevent overflow */
 @media (max-width: 480px) {
     .flatpickr-calendar {
-        max-width: calc(100vw - 2rem) !important;
-        left: 50% !important;
-        transform: translateX(-50%) !important;
-        right: auto !important;
+        width: calc(100vw - 2rem) !important;
+        max-width: 320px !important;
+        left: 0 !important;
+        right: 0 !important;
+        margin: 0 auto !important;
+        position: fixed !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
     }
 
     .flatpickr-time {
