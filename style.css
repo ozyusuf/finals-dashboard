@@ -230,6 +230,11 @@ body {
     display: none !important;
 }
 
+/* Mobile filter button - visible on all screen sizes */
+.mobile-filter-btn {
+    display: flex;
+}
+
 /* LIST VIEW (Default) */
 .view-list .timeline-line {
     display: block;
@@ -676,4 +681,31 @@ span.flatpickr-weekday {
 
 .flatpickr-time .numInputWrapper:hover {
     background: rgba(255, 255, 255, 0.05);
+}
+
+/* Mobile Flatpickr Fix - Prevent overflow */
+@media (max-width: 480px) {
+    .flatpickr-calendar {
+        max-width: calc(100vw - 2rem) !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        right: auto !important;
+    }
+
+    .flatpickr-time {
+        padding: 10px 5px !important;
+    }
+
+    .flatpickr-time .numInputWrapper {
+        width: 50px !important;
+        height: 36px !important;
+    }
+
+    .flatpickr-time input {
+        font-size: 16px !important;
+    }
+
+    .flatpickr-time .flatpickr-time-separator {
+        font-size: 18px !important;
+    }
 }

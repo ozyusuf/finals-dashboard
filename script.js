@@ -30,7 +30,6 @@ let exams = JSON.parse(localStorage.getItem('exams')) || defaultExams;
 let currentEditingExamId = null;
 
 // DOM Elements
-const examsGrid = document.getElementById('exams-grid');
 const modalOverlay = document.getElementById('modal-overlay');
 const examModal = document.getElementById('exam-modal');
 const topicsModal = document.getElementById('topics-modal');
@@ -158,7 +157,7 @@ function renderExamsList() {
         } else if (exam.priority === 'LOW') {
             cardTheme = "bg-gradient-to-br from-green-900/20 to-green-950/10 border-green-500/30";
             accentColor = "green-400";
-            priorityIcon = `<span class="text-green-400 text-xs font-bold">☕ RAHAT</span>`;
+            priorityIcon = `<span class="text-green-400 text-xs font-bold">🤙🏻 RAHAT</span>`;
         }
 
         // Midterm grade color
@@ -747,21 +746,32 @@ let hideCompleted = false;
 function toggleHideCompleted() {
     hideCompleted = !hideCompleted;
     const section = document.getElementById('exams-section');
-    const btn = document.getElementById('hide-completed-btn');
-    const icon = btn.querySelector('i');
+
+    // Get the filter button (now only in header)
+    const btn = document.getElementById('hide-completed-btn-mobile');
 
     if (hideCompleted) {
         section.classList.add('hide-completed');
-        btn.classList.add('active');
-        icon.classList.remove('fa-eye');
-        icon.classList.add('fa-eye-slash');
-        btn.title = 'Tamamlanan Sınavları Göster';
+        if (btn) {
+            btn.classList.add('active');
+            const icon = btn.querySelector('i');
+            const label = btn.querySelector('span');
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+            btn.title = 'Tamamlanan Sınavları Göster';
+            if (label) label.textContent = 'Bitenleri Göster';
+        }
     } else {
         section.classList.remove('hide-completed');
-        btn.classList.remove('active');
-        icon.classList.remove('fa-eye-slash');
-        icon.classList.add('fa-eye');
-        btn.title = 'Tamamlanan Sınavları Gizle';
+        if (btn) {
+            btn.classList.remove('active');
+            const icon = btn.querySelector('i');
+            const label = btn.querySelector('span');
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+            btn.title = 'Tamamlanan Sınavları Gizle';
+            if (label) label.textContent = 'Bitenleri Gizle';
+        }
     }
 
     // Save preference

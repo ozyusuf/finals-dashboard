@@ -89,9 +89,18 @@
                         class="fa-solid fa-plus mr-2 group-hover:rotate-90 transition-transform duration-300 text-neonBlue"></i>
                     Yeni Sınav Ekle
                 </button>
-                <div class="glass-panel p-4 rounded-xl text-center border border-white/[0.08]">
-                    <p class="text-sm text-gray-400">Toplam Sınav</p>
-                    <p id="total-exams" class="text-3xl font-bold text-white">0</p>
+                <div
+                    class="glass-panel p-4 rounded-xl border border-white/[0.08] flex items-center justify-between gap-4">
+                    <div class="text-center flex-1">
+                        <p class="text-sm text-gray-400">Toplam Sınav</p>
+                        <p id="total-exams" class="text-3xl font-bold text-white">0</p>
+                    </div>
+                    <button id="hide-completed-btn-mobile" onclick="toggleHideCompleted()"
+                        class="filter-toggle-btn mobile-filter-btn flex flex-col items-center gap-1 p-3 rounded-xl bg-white/5 border border-white/10 hover:border-neonPurple/50 transition-all"
+                        title="Tamamlanan Sınavları Gizle/Göster">
+                        <i class="fa-solid fa-eye text-lg"></i>
+                        <span class="text-[10px] text-gray-400 whitespace-nowrap">Bitenleri Gizle</span>
+                    </button>
                 </div>
             </div>
         </header>
@@ -107,12 +116,6 @@
                 class="view-toggle-btn p-3 rounded-xl bg-white/5 border border-white/10 hover:border-neonBlue/50 transition-all"
                 title="Izgara Görünümü">
                 <i class="fa-solid fa-grip text-lg"></i>
-            </button>
-            <div class="w-px bg-white/10 mx-1"></div>
-            <button id="hide-completed-btn" onclick="toggleHideCompleted()"
-                class="filter-toggle-btn p-3 rounded-xl bg-white/5 border border-white/10 hover:border-neonPurple/50 transition-all"
-                title="Tamamlanan Sınavları Gizle/Göster">
-                <i class="fa-solid fa-eye text-lg"></i>
             </button>
         </div>
 
@@ -149,7 +152,7 @@
                     olarak</strong> saklanır.
             </p>
 
-            <div class="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4 mb-6 text-left">
+            <div class="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4 mb-4 text-left">
                 <div class="flex items-start gap-3">
                     <i class="fa-solid fa-triangle-exclamation text-yellow-400 mt-0.5"></i>
                     <div class="text-sm text-yellow-200/90">
@@ -159,6 +162,17 @@
                             <li>Farklı cihaz veya tarayıcıdan verilerinize erişemezsiniz</li>
                             <li>Gizli/özel pencerede veriler kaydedilmez</li>
                         </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-neonBlue/10 border border-neonBlue/30 rounded-xl p-4 mb-6 text-left">
+                <div class="flex items-start gap-3">
+                    <i class="fa-solid fa-laptop text-neonBlue mt-0.5"></i>
+                    <div class="text-sm text-gray-300">
+                        <strong class="block mb-1 text-neonBlue">💻 Öneri:</strong>
+                        <span class="text-gray-400">En iyi deneyim için <strong
+                                class="text-white">bilgisayardan</strong> kullanmanızı tavsiye ederiz.</span>
                     </div>
                 </div>
             </div>
@@ -303,16 +317,6 @@
             <!-- Topics List -->
             <div id="topics-list" class="flex-1 overflow-y-auto pr-2 space-y-3 custom-scrollbar">
                 <!-- Topics injected via JS -->
-                <div
-                    class="topic-item group flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5 hover:border-white/20 transition cursor-pointer">
-                    <div
-                        class="custom-checkbox w-6 h-6 border-2 border-neonBlue rounded flex items-center justify-center">
-                        <i class="fa-solid fa-check text-xs opacity-0"></i>
-                    </div>
-                    <span class="flex-1 text-gray-300 group-hover:text-white transition">Konu Başlığı</span>
-                    <button class="text-gray-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition"><i
-                            class="fa-solid fa-trash"></i></button>
-                </div>
             </div>
         </div>
 
